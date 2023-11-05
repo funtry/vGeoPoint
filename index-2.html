@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+  <title>湖北省地质图定位器</title>
+  <script src="//webapi.amap.com/maps?v=2.0&key=您申请的key值"></script>
+  <style>
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 95%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: "ea9271dcc696f932fdd4b36b1de67c5c",
+    }
+  </script>
+  <script src="https://webapi.amap.com/loader.js"></script>
+  <script>
+    var imageLayer = new AMap.ImageLayer({
+      url: 'https://amappc.cn-hangzhou.oss-pub.aliyun-inc.com/lbs/static/img/dongwuyuan.jpg',
+      bounds: new AMap.Bounds(
+        [114.027911, 30.539229],
+        [114.042659, 30.546275]
+      ),
+      zooms: [15, 20]
+    });
+  </script>
+  <script>
+    window.onApiLoaded = function () {
+      var map = new AMap.Map('container', {
+        viewMode: "2D",
+        center: [114.00, 30.50],
+        mapStyle: 'amap://styles/whitesmoke',
+        zoom: 8
+      });
+      map.plugin(["AMap.ToolBar"], function () {
+        map.addControl(new AMap.ToolBar());
+      });
+    }
+    var url = 'https://webapi.amap.com/maps?v=2.0&key=b54f945a4c9a9300e0574da4fc67e445&callback=onApiLoaded';
+    var jsapi = document.createElement('script');
+    jsapi.charset = 'utf-8';
+    jsapi.src = url;
+    document.head.appendChild(jsapi);
+  </script>
+</body>
+
+</html>
