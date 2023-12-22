@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg" viewBox="27.846457 27.846457 171.07874 171.07874" width="171.07874" height="171.07874">
+  <defs>
+    <linearGradient x1="0" x2="1" id="Gradient" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3a8eed"/>
+      <stop offset=".6990483" stop-color="white"/>
+      <stop offset="1" stop-color="#68bc36"/>
+    </linearGradient>
+    <linearGradient id="Obj_Gradient" xl:href="#Gradient" gradientTransform="translate(113.38583 56.69291) rotate(90) scale(113.38583)"/>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.11.3 
+    <dc:date>2023-11-01 13:03:28 +0000</dc:date>
+  </metadata>
+  <g id="Canvas______+_" fill="none" stroke-dasharray="none" stroke="none" fill-opacity="1" stroke-opacity="1">
+    <title>长大地科地信+长江</title>
+    <g id="Canvas______+_: Layer 1">
+      <title>Layer 1</title>
+      <g id="Graphic_8">
+        <circle cx="113.38583" cy="113.38583" r="85.0395054676998" fill="blue"/>
+        <circle cx="113.38583" cy="113.38583" r="85.0395054676998" stroke="#1d2649" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_18">
+        <circle cx="113.38583" cy="113.38583" r="70.8662545564165" fill="white"/>
+        <circle cx="113.38583" cy="113.38583" r="70.8662545564165" stroke="#1d2649" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"/>
+      </g>
+      <g id="Graphic_33">
+        <circle cx="113.38583" cy="113.38583" r="56.6930036451332" fill="url(#Obj_Gradient)"/>
+      </g>
+      <g id="Line_24"/>
+      <g id="Line_10">
+        <line x1="84.7387" y1="178.20371" x2="90.56558" y2="165.2825" stroke="#1d2649" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"/>
+      </g>
+      <g id="Line_31">
+        <line x1="136.20608" y1="61.489144" x2="142.03295" y2="48.56794" stroke="#1d2649" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"/>
+      </g>
+      <g id="Graphic_29">
+        <path d="M 154.6454 87.61251 C 159.77596 113.98564 145.4625 146.90435 122.67538 161.13853 C 99.88829 175.37285 77.25668 165.53235 72.12624 139.15914 C 66.99569 112.78601 81.30915 79.8673 104.09627 65.63312 C 126.88336 51.3988 149.51497 61.239305 154.6454 87.61251" stroke="#a5a5a5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".25"/>
+      </g>
+      <g id="Graphic_28">
+        <title>Circle</title>
+        <path d="M 138.56159 80.61907 C 134.80925 103.12981 120.49579 136.04851 106.59157 154.1451 C 92.68733 172.24178 84.45765 168.66342 88.21006 146.15258 C 91.9624 123.64184 106.27586 90.72314 120.18009 72.62656 C 134.08433 54.52987 142.314 58.108235 138.56159 80.61907" stroke="#a5a5a5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".25"/>
+      </g>
+      <g id="Line_6">
+        <line x1="165.10175" y1="136.61415" x2="61.6699" y2="90.1575" stroke="#a5a5a5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".25"/>
+      </g>
+      <g id="Line_11">
+        <path d="M 169.74794 107.14059 C 169.74794 107.14059 147.13155 107.72652 121.88976 96.37795 C 96.64798 85.02939 80.65037 67.08282 80.65037 67.08282" stroke="#a5a5a5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".25"/>
+      </g>
+      <g id="Line_12">
+        <path d="M 146.12128 159.68883 C 146.12128 159.68883 130.12368 141.74226 104.88189 130.3937 C 79.6401 119.04514 57.023714 119.63107 57.023714 119.63107" stroke="#a5a5a5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".25"/>
+      </g>
+      <g id="Graphic_34">
+        <path d="M 142.26436 75.94485 C 143.14651 72.9791 145.35592 72.58952 147.19922 75.0747 C 149.04252 77.55986 149.82168 81.97868 148.93952 84.94442 C 148.05737 87.91017 145.84796 88.29974 144.00466 85.81457 C 142.16136 83.3294 141.3822 78.91058 142.26436 75.94485" fill="white"/>
+        <path d="M 142.26436 75.94485 C 143.14651 72.9791 145.35592 72.58952 147.19922 75.0747 C 149.04252 77.55986 149.82168 81.97868 148.93952 84.94442 C 148.05737 87.91017 145.84796 88.29974 144.00466 85.81457 C 142.16136 83.3294 141.3822 78.91058 142.26436 75.94485" stroke="#1a264c" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"/>
+      </g>
+      <g id="Graphic_3">
+        <circle cx="113.38583" cy="113.38583" r="56.6930036451332" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"/>
+      </g>
+    </g>
+    <g id="Canvas______+_: 长江河道 2">
+      <title>长江河道 2</title>
+      <g id="Line_38">
+        <path d="M 74.04023 76.22509 C 80.31579 74.31579 84.08309 76.44351 86.63158 79.57895 C 89.18006 82.71439 91.72482 87.07573 92.12557 96.80102 C 92.52632 106.52632 88.20259 115.73939 91.41761 118.92491 C 94.63262 122.11044 105.5519 116.34744 111.4176 115.91606 C 117.28331 115.48469 121.1579 114.52632 126.61534 116.33642 C 132.07278 118.14652 128.76274 127.42049 135.92613 123.52668 C 143.08953 119.63288 137.6123 130.60633 146.15792 126.53553 C 154.70354 122.46474 153.43212 122.16976 156.19637 122.28775 C 158.96061 122.40573 160.56237 125.59175 162.74504 127.2435" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+      </g>
+      <g id="Graphic_44">
+        <circle cx="133.79527" cy="119.62204" r="1.41732511224812" fill="black"/>
+        <circle cx="133.79527" cy="119.62204" r="1.41732511224812" stroke="#1a264c" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"/>
+      </g>
+    </g>
+  </g>
+</svg>
