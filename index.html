@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>长江大学DFS数据库共享平台</title>
+    <title>DFS数据库（简易版）</title>
     <link rel="stylesheet" href="//a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
     <script src="//webapi.amap.com/maps?v=2.0&key=ea9271dcc696f932fdd4b36b1de67c5c&&plugin=AMap.GeoJSON"></script>
     <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
@@ -61,10 +61,26 @@
         };
         window.onLoad = function () {
             var lnglat = new AMap.LngLat(-58, -28);
+            var dfsCode = '';
             var map = new AMap.Map('container', {
                 center: lnglat,
                 layers: [new AMap.TileLayer.Satellite()],
                 zoom: 4
+            });
+
+            var infoWindowContent =
+                '<div className="custom-infowindow input-card">' +
+                '<label style="color:grey">DFS实体</label>' +
+                '<div class="input-item">' +
+                '<div class="input-item-prepend">' +
+                '<input id="dfsCode" type="text" />' +
+                '</div>' +
+                '</div>';
+
+            var infoWindow = new AMap.InfoWindow({
+                position: lnglat,
+                offset: new AMap.Pixel(0, -35),
+                content: infoWindowContent
             });
 
             var wms = new AMap.TileLayer.WMTS({
@@ -79,21 +95,6 @@
             wms.setMap(map);
             wms.hide();
 
-            var contextMenu = new AMap.ContextMenu();
-            contextMenu.addItem("高清影像", function () {
-                wms.show();
-                contextMenu.close();
-            }, 0);
-            contextMenu.addItem("普通影像", function () {
-                wms.hide();
-                contextMenu.close();
-            }, 1);
-
-            map.on('rightclick', function (e) {
-                contextMenu.open(map, e.lnglat);
-                contextMenuPositon = e.lnglat;
-            });
-            contextMenu.open(map, lnglat);
             map.plugin([
                 'AMap.ToolBar',
                 'AMap.Scale',
@@ -112,24 +113,43 @@
                 map.addControl(view);
                 map.addControl(new AMap.Scale());
 
+                var tmpApex, tmpBasin, tmpSediment;
                 var basin;
                 var apex;
                 var sediment;
+                var area;
+
+                function getPathByCode(jsons, code) {
+                    var tPath;
+                    var overlays = jsons.getOverlays();
+                    for(var i=0; i< overlays.length; i++){
+                        var id = overlays[i].getExtData().id;
+                        if(id === code){
+                            tPath = overlays[i].getPath();
+                            break;
+                        }
+                    }
+                   // document.querySelector("#text").innerText = 'asd' + tPath;
+                    return tPath;
+                }
+
                 ajax('./src/static/json/basin.geojson', function (err, geoJSON) {
                     if (!err) {
                         basin = new AMap.GeoJSON({
                             geoJSON: geoJSON,
-                            // 还可以自定义getMarker和getPolyline
                             getPolygon: function (geojson, lnglats) {
-                                var area = AMap.GeometryUtil.ringArea(lnglats[0]);
                                 return new AMap.Polygon({
                                     path: lnglats,
                                     fillOpacity: 0.5,
                                     strokeWeight: 1,
                                     strokeColor: '#800080',
                                     fillColor: 'none',
+                                    extData: {
+                                        id: geojson.properties.Code,
+                                    }
                                 }).on("mouseover", () => {
-                                    document.querySelector("#text").innerText = 'DFS源区面积 =' + (area/1000000).toFixed(2) + ' 平方千米';
+                                    area = geojson.properties.Shape_Area;
+                                    document.querySelector("#text").innerText = 'DFS源区面积 =' + (area).toFixed(2) + ' 平方千米';
                                 }).on("mouseout", () => {
                                     document.querySelector("#text").innerText = '鼠标滑过对象查询信息';
                                 });
@@ -141,47 +161,24 @@
                         log.error('加载源区服务请求失败')
                     }
                 })
-                ajax('./src/static/json/apex.geojson', function (err, geoJSON) {
-                    if (!err) {
-                        apex = new AMap.GeoJSON({
-                            geoJSON: geoJSON,
-                            // 还可以自定义getMarker和getPolyline
-                            getMarker: function (geojson, lnglats) {
-                                var x = lnglats[0].toFixed(2);
-                                var y = lnglats[1].toFixed(2);
-                                return new AMap.Marker({
-                                    position: lnglats,
-                                    icon: './src/static/img/star48.png',
-                                    offset: new AMap.Pixel(-8, -8),
-                                    title: 'Code =' + geojson.properties.Code,
-                                }).on("mouseover", (e) => {
-                                    document.querySelector("#text").innerText = 'DFS顶点位置：(' + x + ', ' + y +')';
-                                }).on("mouseout", () => {
-                                    document.querySelector("#text").innerText = '鼠标滑过对象查询信息';
-                                });
-                            }
-                        });
-                        map.add(apex);
-                        log.success('顶点数据加载完成')
-                    } else {
-                        log.error('加载顶点服务请求失败')
-                    }
-                })
+
                 ajax('./src/static/json/sediment.geojson', function (err, geoJSON) {
                     if (!err) {
                         sediment = new AMap.GeoJSON({
                             geoJSON: geoJSON,
-                            // 还可以自定义getMarker和getPolyline
                             getPolygon: function (geojson, lnglats) {
-                                var area = AMap.GeometryUtil.ringArea(lnglats[0]);
                                 return new AMap.Polygon({
                                     path: lnglats,
                                     fillOpacity: 0.5,
                                     strokeWeight: 1,
                                     strokeColor: 'red',
-                                    fillColor: 'none'
+                                    fillColor: 'none',
+                                    extData: {
+                                        id: geojson.properties.Code,
+                                    }
                                 }).on("mouseover", () => {
-                                    document.querySelector("#text").innerText = 'DFS沉积区面积 =' + (area/1000000).toFixed(2) + ' 平方千米';
+                                    area = geojson.properties.SHAPE_Area;
+                                    document.querySelector("#text").innerText = 'DFS沉积区面积 =' + (area).toFixed(2) + ' 平方千米';
                                 }).on("mouseout", () => {
                                     document.querySelector("#text").innerText = '鼠标滑过对象查询信息';
                                 });
@@ -193,7 +190,103 @@
                         log.error('加载沉积区服务请求失败')
                     }
                 })
+
+                ajax('./src/static/json/apex.geojson', function (err, geoJSON) {
+                    if (!err) {
+                        apex = new AMap.GeoJSON({
+                            geoJSON: geoJSON,
+                            getMarker: function (geojson, lnglats) {
+                                var x = lnglats[0].toFixed(2);
+                                var y = lnglats[1].toFixed(2);
+                                return new AMap.Marker({
+                                    position: lnglats,
+                                    //content: geojson.properties.Code,
+                                    icon: './src/static/img/star48.png',
+                                    offset: new AMap.Pixel(-8, -8),
+                                    title: geojson.properties.Code,
+                                }).on("mouseover", () => {
+                                    document.querySelector("#text").innerText = 'DFS顶点位置：(' + x + ', ' + y + ')';
+                                }).on("mouseout", () => {
+                                    document.querySelector("#text").innerText = '鼠标滑过对象查询信息';
+                                }).on("click", (e) => {
+                                    var codeMarker = document.getElementById('dfsCode');
+                                    map.setFitView(e.target);
+                                    map.setZoom(10);
+                                    infoWindow.open(map, e.target.getPosition());
+                                    dfsCode = e.target.getTitle();
+                                    codeMarker.setAttribute('value', dfsCode);
+
+                                    tmpApex = new AMap.Marker({
+                                        map: map,
+                                        icon: './src/static/img/star48.png',
+                                        offset: new AMap.Pixel(-8, -8),
+                                        position: e.target.getPosition(),
+                                        title: dfsCode,
+                                    });
+                                });
+                            }
+                        });
+                        map.add(apex);
+                        log.success('顶点数据加载完成')
+                    } else {
+                        log.error('加载顶点服务请求失败')
+                    }
+                })
+                
                 map.setFitView();
+
+                var contextMenu = new AMap.ContextMenu();
+                contextMenu.addItem("高清影像", function () {
+                    wms.show();
+                    contextMenu.close();
+                }, 0);
+                contextMenu.addItem("普通影像", function () {
+                    wms.hide();
+                    contextMenu.close();
+                }, 1);
+                contextMenu.addItem("显示一个", function () {
+                    var pathBasin = getPathByCode(basin, dfsCode);
+                    tmpBasin = new AMap.Polygon({
+                        path: pathBasin,
+                        fillOpacity: 0.5,
+                        strokeWeight: 1,
+                        strokeColor: '#800080',
+                        fillColor: 'none'
+                    });
+                    map.add(tmpBasin);
+
+                    var pathSediment = getPathByCode(sediment, dfsCode);
+                    tmpSediment= new AMap.Polygon({
+                        path: pathSediment,
+                        fillOpacity: 0.5,
+                        strokeWeight: 1,
+                        strokeColor: 'red',
+                        fillColor: 'none'
+                    });
+                    map.add(tmpSediment);
+
+                    infoWindow.close();
+                    map.add(tmpApex);
+                    basin.hide();
+                    apex.hide();
+                    sediment.hide();
+                    contextMenu.close();
+                }, 2);
+                contextMenu.addItem("显示全部", function () {
+                    infoWindow.close();
+                    map.remove(tmpApex);
+                    map.remove(tmpBasin);
+                    map.remove(tmpSediment);
+                    basin.show();
+                    apex.show();
+                    sediment.show();
+                    contextMenu.close();
+                }, 3);
+                map.on('rightclick', function (e) {
+                    contextMenu.open(map, e.lnglat);
+                    contextMenuPositon = e.lnglat;
+                });
+                contextMenu.open(map, lnglat);
             });
         }
         var url = 'https://webapi.amap.com/maps?v=2.0&key=b54f945a4c9a9300e0574da4fc67e445&callback=onLoad';
