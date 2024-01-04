@@ -60,12 +60,12 @@
             securityJsCode: "ea9271dcc696f932fdd4b36b1de67c5c",
         };
         window.onLoad = function () {
-            var lnglat = new AMap.LngLat(-58, -28);
+            var lnglat = new AMap.LngLat(-67.96, -31.40);
             var dfsCode = '';
             var map = new AMap.Map('container', {
                 center: lnglat,
                 layers: [new AMap.TileLayer.Satellite()],
-                zoom: 4
+                zoom: 10
             });
 
             var infoWindowContent =
@@ -93,7 +93,7 @@
             });
 
             wms.setMap(map);
-            wms.hide();
+            wms.show();
 
             map.plugin([
                 'AMap.ToolBar',
@@ -113,10 +113,8 @@
                 map.addControl(view);
                 map.addControl(new AMap.Scale());
 
-                var tmpApex, tmpBasin, tmpSediment;
-                var basin;
-                var apex;
-                var sediment;
+                var tmpApex, tmpBasin, tmpSediment,tmpConf, tmpRect;
+                var apex, basin, sediment, conf, rect;
                 var area;
 
                 function getPathByCode(jsons, code) {
@@ -156,6 +154,7 @@
                             }
                         });
                         map.add(basin);
+                        //basin.hide();
                         log.success('源区加载完成')
                     } else {
                         log.error('加载源区服务请求失败')
@@ -185,9 +184,60 @@
                             }
                         });
                         map.add(sediment);
+                        //sediment.hide();
                         log.success('沉积区数据加载完成')
                     } else {
                         log.error('加载沉积区服务请求失败')
+                    }
+                })
+
+                ajax('./src/static/json/conf.geojson', function (err, geoJSON) {
+                    if (!err) {
+                        conf = new AMap.GeoJSON({
+                            geoJSON: geoJSON,
+                            getPolygon: function (geojson, lnglats) {
+                                return new AMap.Polygon({
+                                    path: lnglats,
+                                    fillOpacity: 0.5,
+                                    strokeWeight: 1,
+                                    strokeColor: 'green',
+                                    fillColor: 'none',
+                                    extData: {
+                                        id: geojson.properties.Code,
+                                    }
+                                });
+                            }
+                        });
+                        map.add(conf);
+                        conf.hide();
+                        log.success('扇形汇区数据加载完成')
+                    } else {
+                        log.error('加载扇形汇区服务请求失败')
+                    }
+                })
+
+                ajax('./src/static/json/rect.geojson', function (err, geoJSON) {
+                    if (!err) {
+                        rect = new AMap.GeoJSON({
+                            geoJSON: geoJSON,
+                            getPolygon: function (geojson, lnglats) {
+                                return new AMap.Polygon({
+                                    path: lnglats,
+                                    fillOpacity: 0.5,
+                                    strokeWeight: 1,
+                                    strokeColor: 'black',
+                                    fillColor: 'none',
+                                    extData: {
+                                        id: geojson.properties.Code,
+                                    }
+                                });
+                            }
+                        });
+                        map.add(rect);
+                        rect.hide();
+                        log.success('外接矩形数据加载完成')
+                    } else {
+                        log.error('加载外接矩形服务请求失败')
                     }
                 })
 
@@ -210,11 +260,10 @@
                                     document.querySelector("#text").innerText = '鼠标滑过对象查询信息';
                                 }).on("click", (e) => {
                                     var codeMarker = document.getElementById('dfsCode');
-                                    map.setFitView(e.target);
-                                    map.setZoom(10);
                                     infoWindow.open(map, e.target.getPosition());
                                     dfsCode = e.target.getTitle();
                                     codeMarker.setAttribute('value', dfsCode);
+                                    //map.setFitView(e.target);
 
                                     tmpApex = new AMap.Marker({
                                         map: map,
@@ -245,12 +294,14 @@
                     contextMenu.close();
                 }, 1);
                 contextMenu.addItem("显示一个", function () {
+                    map.add(tmpApex);
+
                     var pathBasin = getPathByCode(basin, dfsCode);
                     tmpBasin = new AMap.Polygon({
                         path: pathBasin,
                         fillOpacity: 0.5,
                         strokeWeight: 1,
-                        strokeColor: '#800080',
+                        strokeColor: '#FF00FF',
                         fillColor: 'none'
                     });
                     map.add(tmpBasin);
@@ -260,15 +311,35 @@
                         path: pathSediment,
                         fillOpacity: 0.5,
                         strokeWeight: 1,
-                        strokeColor: 'red',
+                        strokeColor: '#FF0000',
                         fillColor: 'none'
                     });
                     map.add(tmpSediment);
 
+                    var pathConf = getPathByCode(conf, dfsCode);
+                    tmpConf= new AMap.Polygon({
+                        path: pathConf,
+                        fillOpacity: 0.5,
+                        strokeWeight: 1,
+                        strokeColor: '#00FF00',
+                        fillColor: 'none'
+                    });
+                    map.add(tmpConf);
+                    map.setFitView(tmpConf);
+
+                    var pathRect = getPathByCode(rect, dfsCode);
+                    tmpRect= new AMap.Polygon({
+                        path: pathRect,
+                        fillOpacity: 0.5,
+                        strokeWeight: 1,
+                        strokeColor: '#000000',
+                        fillColor: 'none'
+                    });
+                    map.add(tmpRect);
+
                     infoWindow.close();
-                    map.add(tmpApex);
-                    basin.hide();
                     apex.hide();
+                    basin.hide();
                     sediment.hide();
                     contextMenu.close();
                 }, 2);
@@ -277,8 +348,10 @@
                     map.remove(tmpApex);
                     map.remove(tmpBasin);
                     map.remove(tmpSediment);
-                    basin.show();
+                    map.remove(tmpConf);
+                    map.remove(tmpRect);
                     apex.show();
+                    basin.show();
                     sediment.show();
                     contextMenu.close();
                 }, 3);
