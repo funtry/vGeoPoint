@@ -1,20 +1,33 @@
-
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>小家日历</title>
     <script>
         function getDate(){
             var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var week = date.getDay();
+            var weekArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            var hour = date.getHours();
+            hour = hour < 10 ? "0" + hour : hour;
+            var minute = date.getMinutes();
+            minute = minute < 10 ? "0" + minute : minute; 
+            var second = date.getSeconds();
+            second = second < 10 ? "0" + second : second;
             var strDate = date.toLocaleString();
-            document.getElementById("datetime").innerHTML= strDate;
+            document.getElementById("time").innerHTML= `${hour}:${minute}:${second}<br>`;
+            document.getElementById("date").innerHTML= `${year}年${month}月${day}日 <br> ${weekArr[week]}`;
         }
+        setInterval(getDate, 1000);
     </script>
 </head>
 
-<body onload = getDate()>
-<div id="datetime"></div>
+<body onload = getDate() >
+    <div id="time"></div>
+    <div id="date"></div>
 </body>
 
 </html>
