@@ -19,8 +19,8 @@
             minute = minute < 10 ? "0" + minute : minute;
             var second = date.getUTCSeconds();
             second = second < 10 ? "0" + second : second;
-            document.getElementById("time").innerHTML= `${hour}:${minute}:${second}<br>`;
-            document.getElementById("date").innerHTML= `${year}年${month}月${day}日 <br> ${weekArr[week]}`;
+            document.getElementById("time").innerHTML= hour + ":" + minute + ":" + second;
+            document.getElementById("date").innerHTML= strDate;
         }
         setInterval(getDate, 1000);
     </script>
