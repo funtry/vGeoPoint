@@ -8,9 +8,19 @@
             var date = new Date();
             var strDate = date.toLocaleDateString();
             var strTime = date.toLocaleTimeString();
-            var week = date.getUTCDay();
-            document.getElementById("time").innerHTML= strTime;
-            document.getElementById("date").innerHTML= strDate + "星期"+ week;
+            var year = date.getUTCFullYear();
+            var month = date.getUTCMonth() + 1; // 月
+            var day = date.getUTCDate(); // 日
+            var week = date.getUTCDay(); // 星期
+            var weekArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            var hour = date.getUTCHours(); // 时
+            hour = hour < 10 ? "0" + hour : hour;
+            var minute = date.getUTCMinutes(); // 分
+            minute = minute < 10 ? "0" + minute : minute;
+            var second = date.getUTCSeconds();
+            second = second < 10 ? "0" + second : second;
+            document.getElementById("time").innerHTML= `${hour}:${minute}:${second}<br>`;
+            document.getElementById("date").innerHTML= `${year}年${month}月${day}日 <br> ${weekArr[week]}`;
         }
         setInterval(getDate, 1000);
     </script>
