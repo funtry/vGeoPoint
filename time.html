@@ -13,7 +13,7 @@
             var minute = date.getMinutes();
             var second = date.getSeconds();
             document.getElementById("time").innerHTML= `${hour}:${minute}:${second}`;
-            document.getElementById("date").innerHTML= `${year}年${month}月${day}日${weekArr[week]}`;
+            document.getElementById("date").innerHTML= `${year}年${month}月${day}日`;
         }
         setInterval(getDate, 1000);
     </script>
