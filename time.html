@@ -1,14 +1,18 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>小家日历</title>
     <script>
-        function getDate(){
+        function getDate() {
             var date = new Date();
+            
             var year = date.getFullYear();
+            var beginDate = new Date(year, 2-1, 26);
             var month = date.getMonth() + 1;
             var day = date.getDate();
+            var week_number = Math.ceil((parseInt((date - beginDate) / (24 * 60 * 60 * 1000)) + 1 + beginDate.getDay()) / 7);
             var week = date.getDay();
             var weekArr = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
             var hour = date.getHours();
@@ -17,24 +21,32 @@
             minute = minute < 10 ? "0" + minute : minute;
             var second = date.getSeconds();
             second = second < 10 ? "0" + second : second;
-            document.getElementById("time").innerHTML= hour + ":" + minute;
-            document.getElementById("date").innerHTML= year + "年" +month + "月" +day + "日 " + weekArr[week];
+            document.getElementById("time").innerHTML = hour + ":" + minute;
+            document.getElementById("date").innerHTML = month + "月" + day + "日 " + weekArr[week];
+            document.getElementById("week").innerHTML = "长江大学 2023-2024-2学期 第" + week_number +"周";
 
-            if(hour>6 && hour<23){
+            if (hour >= 6 && hour < 12) {
                 document.getElementById("time").style.color = "#FFFFFF";
                 document.getElementById("date").style.color = "#FFFFFF";
-            }else{
+                document.getElementById("week").style.color = "#006400";
+            } else if (hour >= 12 && hour <= 23) {
+                document.getElementById("time").style.color = "#FFFF00";
+                document.getElementById("date").style.color = "#FFFF00";
+                document.getElementById("week").style.color = "#006400";
+            } else {
                 document.getElementById("time").style.color = "#006400";
                 document.getElementById("date").style.color = "#006400";
+                document.getElementById("week").style.color = "#006400";
             }
         }
-        setInterval(getDate, 1000*20);
+        setInterval(getDate, 1000 * 20);
     </script>
 </head>
 
-<body onload = getDate() bgcolor="#000000">
-    <div id="time" style="font-size: 388px;text-align: center;font-weight: bold;"></div>
-    <div id="date" style="font-size: 88px;text-align: center;"></div>
-    </body>
+<body onload=getDate() bgcolor="#000000">
+    <div id="time" style="font-size: 388px;text-align: center;font-weight: bold;font-family: Arial;"></div>
+    <div id="date" style="font-size: 148px;text-align: center;font-weight: bold;font-family: Arial;"></div>
+    <div id="week" style="font-size: 68px;text-align: center;font-weight: bold;font-family: Arial;"></div>
+</body>
 
 </html>
