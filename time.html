@@ -9,6 +9,10 @@
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
             var day = date.getDate();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            document.getElementById("time").innerHTML= `${hour}:${minute}:${second}`;
             document.getElementById("date").innerHTML= `${year}年${month}月${day}日${weekArr[week]}`;
         }
         setInterval(getDate, 1000);
@@ -17,6 +21,7 @@
 
 <body onload = getDate() >
     <div id="date"></div>
+    <div id="time"></div>
 </body>
 
 </html>
