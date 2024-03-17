@@ -6,22 +6,19 @@
     <script>
         function getDate(){
             var date = new Date();
-            var year = date.getFullYear();
-            var month = date.getMonth() + 1;
-            var day = date.getDate();
-            var hour = date.getHours();
-            var minute = date.getMinutes();
-            var second = date.getSeconds();
-            document.getElementById("time").innerHTML= `${hour}:${minute}:${second}`;
-            document.getElementById("date").innerHTML= `${year}年${month}月${day}日`;
+            var strDate = date.toLocaleDateString();
+            var strTime = date.toLocaleTimeString();
+            var week = date.getUTCDay();
+            document.getElementById("time").innerHTML= strTime;
+            document.getElementById("date").innerHTML= strDate + "星期"+ week;
         }
         setInterval(getDate, 1000);
     </script>
 </head>
 
 <body onload = getDate() >
-    <div id="date"></div>
     <div id="time"></div>
+    <div id="date"></div>
 </body>
 
 </html>
