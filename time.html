@@ -14,7 +14,7 @@
             var day = date.getDate();
             var week_number = Math.ceil((parseInt((date - beginDate) / (24 * 60 * 60 * 1000)) + 1 + beginDate.getDay()) / 7);
             var week = date.getDay();
-            var weekArr = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            var weekArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
             var hour = date.getHours();
             hour = hour < 10 ? "0" + hour : hour;
             var minute = date.getMinutes();
@@ -24,7 +24,7 @@
             var sec = date.getMilliseconds();
 
             document.getElementById("date").innerHTML = month + "月" + day + "日 " + weekArr[week];
-            document.getElementById("week").innerHTML = "2023-2024-2学期 第" + week_number + "周";
+            document.getElementById("week").innerHTML = "长大2023-2024-2学期第" + week_number + "周";
 
             if (hour >= 6 && hour < 12) {
                 document.getElementById("time").style.color = "#FFFFFF";
@@ -33,17 +33,17 @@
                 document.getElementById("date").style.color = "#FFFFFF";
                 document.getElementById("week").style.color = "#FFFFFF";
             } else if (hour >= 12 && hour < 23) {
-                document.getElementById("time").style.color = "#FFFF00";
-                var strTime = sec >500 ? hour + "<span style=\"color:#000000\">&colon;<span>" + "<span style=\"color:#FFFF00\">" + minute + "<span>" : hour + "<span style=\"color:#FFFF00\">&colon;<span>" + minute;
+                document.getElementById("time").style.color = "#FFAA00";
+                var strTime = sec >500 ? hour + "<span style=\"color:#000000\">&colon;<span>" + "<span style=\"color:#FFAA00\">" + minute + "<span>" : hour + "<span style=\"color:#FFAA00\">&colon;<span>" + minute;
                 document.getElementById("time").innerHTML = strTime;
-                document.getElementById("date").style.color = "#FFFF00";
-                document.getElementById("week").style.color = "#FFFF00";
+                document.getElementById("date").style.color = "#FFAA00";
+                document.getElementById("week").style.color = "#FFAA00";
             } else {
-                document.getElementById("time").style.color = "#006400";
-                var strTime = sec >500 ? hour + "<span style=\"color:#000000\">&colon;<span>" + "<span style=\"color:#006400\">" + minute + "<span>" : hour + "<span style=\"color:#006400\">&colon;<span>" + minute;
+                document.getElementById("time").style.color = "#003200";
+                var strTime = hour + "&colon;" + minute;
                 document.getElementById("time").innerHTML = strTime;
-                document.getElementById("date").style.color = "#006400";
-                document.getElementById("week").style.color = "#006400";
+                document.getElementById("date").style.color = "#003200";
+                document.getElementById("week").style.color = "#003200";
             }
         }
         setInterval(getDate, 100);
